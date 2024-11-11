@@ -15,31 +15,38 @@
     <p>Hieronder staan de beschikbare TTS-stemmen. Klik op de knop om de naam naar het klembord te kopiëren en in je bericht te gebruiken.</p>
 
     <h2>TTS Stemmen</h2>
+
+    <!-- Zoekveld voor de TTS-stemmen -->
+    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Zoek op stemnaam of beschrijving..." style="padding: 8px; width: 100%; max-width: 400px; margin: 10px 0;">
+
     <table>
         <thead>
             <tr>
-                <th>Stemnaam</th>
-                <th>Beschrijving</th>
+                <th onclick="sortTable(0)">Stemnaam</th>
+                <th onclick="sortTable(1)">Beschrijving</th>
                 <th>Actie</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="ttsTable">
             <!-- Voorbeeld TTS stemmen -->
             <tr>
-                <td>Niks.</td>
-                <td>Niks.</td>
+                <td>Niks</td>
+                <td>Geen stem beschikbaar.</td>
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Niks.</td>
-                <td>Niks.</td>
+                <td>Niks</td>
+                <td>Geen stem beschikbaar.</td>
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
-            <!-- Voeg hier meer stemmen toe -->
+            <tr>
+                <td>Niks</td>
+                <td>Geen stem beschikbaar.</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+            </tr>
+            <!-- Voeg meer stemmen hier toe -->
         </tbody>
     </table>
-
-    <p>Wil je de sound effects bekijken? Klik <a href="soundeffects.html">hier</a> om naar de sound effects pagina te gaan.</p>
 
     <script>
         // Functie om effectnaam of stemnaam te kopiëren naar klembord
@@ -49,6 +56,55 @@
             }).catch(err => {
                 console.error('Kopiëren mislukt', err);
             });
+        }
+
+        // Functie om de tabel te sorteren
+        function sortTable(n) {
+            const table = document.querySelector("table");
+            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+
+            const isNumeric = rows.every(row => !isNaN(row.cells[n].innerText.trim()));
+            const sortedRows = rows.sort((rowA, rowB) => {
+                const textA = rowA.cells[n].innerText.trim();
+                const textB = rowB.cells[n].innerText.trim();
+
+                // Als de kolom numeriek is, sorteer numeriek
+                if (isNumeric) {
+                    return parseFloat(textA) - parseFloat(textB);
+                }
+
+                // Anders, sorteer als tekst
+                return textA.localeCompare(textB);
+            });
+
+            // Voeg de gesorteerde rijen terug in de tabel
+            sortedRows.forEach(row => table.appendChild(row));
+        }
+
+        // Functie om de tabel te filteren op basis van de zoekopdracht
+        function searchTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();  // Haal de zoekterm op en zet deze om naar kleine letters
+            const table = document.querySelector("table");
+            const rows = table.getElementsByTagName("tr");  // Alle rijen in de tabel
+
+            // Loop door alle rijen van de tabel (behalve de koprij)
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                let matchFound = false;
+
+                // Zoek door alle cellen in de rij
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent || cells[j].innerText;
+                    if (cellText.toLowerCase().indexOf(filter) > -1) {
+                        matchFound = true;
+                        break; // Stop met zoeken als er een match is
+                    }
+                }
+
+                // Toon of verberg de rij op basis van de zoekterm
+                rows[i].style.display = matchFound ? "" : "none";
+            }
         }
 
         // Inline HTML van de navigatiebalk als fallback

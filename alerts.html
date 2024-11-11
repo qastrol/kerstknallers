@@ -12,13 +12,16 @@
     <div id="navbar">Navigatiebalk wordt geladen...</div>
 
     <h1>Speciale Alerts</h1>
-    <p>Hieronder staat een lijst van speciale alerts. Klik op de knop om de effectnaam te kopiëren.</p>
+    <p>Zoek en filter de lijst van speciale alerts door een zoekterm in te voeren:</p>
+
+    <!-- Zoekveld -->
+    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Zoek op effectnaam of beschrijving..." style="padding: 8px; width: 100%; max-width: 400px; margin: 10px 0;">
 
     <table>
         <thead>
             <tr>
-                <th>Effectnaam</th>
-                <th>Beschrijving</th>
+                <th onclick="sortTable(0)">Effectnaam</th>
+                <th onclick="sortTable(1)">Beschrijving</th>
                 <th>Actie</th>
             </tr>
         </thead>
@@ -26,15 +29,24 @@
             <!-- Voorbeeld alerts -->
             <tr>
                 <td>Niks</td>
-                <td>.</td>
+                <td>Geen alert beschikbaar</td>
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
             <tr>
                 <td>Niks</td>
-                <td>.</td>
+                <td>Geen alert beschikbaar</td>
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
-            <!-- Voeg hier meer alerts toe -->
+            <tr>
+                <td>Niks</td>
+                <td>Geen alert beschikbaar</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>Niks</td>
+                <td>Geen alert beschikbaar</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+            </tr>
         </tbody>
     </table>
 
@@ -56,7 +68,6 @@
                     <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
                     <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
                     <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
-
                 </ul>
             </nav>
         `;
@@ -77,7 +88,59 @@
                     console.error('Fout bij het laden van de navigatiebalk:', error);
                     document.getElementById("navbar").innerHTML = navHTML;
                 });
+
+            // Standaard sorteren op de eerste kolom (Effectnaam) bij het laden van de pagina
+            sortTable(0);
         });
+
+        // Functie om de tabel te sorteren
+        function sortTable(n) {
+            const table = document.querySelector("table");
+            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+
+            const isNumeric = rows.every(row => !isNaN(row.cells[n].innerText.trim()));
+            const sortedRows = rows.sort((rowA, rowB) => {
+                const textA = rowA.cells[n].innerText.trim();
+                const textB = rowB.cells[n].innerText.trim();
+
+                // Als de kolom numeriek is, sorteer numeriek
+                if (isNumeric) {
+                    return parseFloat(textA) - parseFloat(textB);
+                }
+
+                // Anders, sorteer als tekst
+                return textA.localeCompare(textB);
+            });
+
+            // Voeg de gesorteerde rijen terug in de tabel
+            sortedRows.forEach(row => table.appendChild(row));
+        }
+
+        // Functie om de tabel te filteren op basis van de zoekopdracht
+        function searchTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();  // Haal de zoekterm op en zet deze om naar kleine letters
+            const table = document.querySelector("table");
+            const rows = table.getElementsByTagName("tr");  // Alle rijen in de tabel
+
+            // Loop door alle rijen van de tabel (behalve de koprij)
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                let matchFound = false;
+
+                // Zoek door alle cellen in de rij
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent || cells[j].innerText;
+                    if (cellText.toLowerCase().indexOf(filter) > -1) {
+                        matchFound = true;
+                        break; // Stop met zoeken als er een match is
+                    }
+                }
+
+                // Toon of verberg de rij op basis van de zoekterm
+                rows[i].style.display = matchFound ? "" : "none";
+            }
+        }
     </script>
 
 </body>

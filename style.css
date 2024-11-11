@@ -5,6 +5,8 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
+    max-width: 1200px; /* Max breedte voor de body */
+    margin: 0 auto; /* Centraal uitlijnen van de body */
 }
 
 /* Navigatiebalk styling */
@@ -59,11 +61,23 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
+/* Stijl voor de klikbare kopjes */
 th {
-    background-color: #4CAF50;
-    color: white;
+    cursor: pointer; /* Laat de muis zien als een handje (aangeeft dat het klikbaar is) */
+    background-color: #4CAF50; /* Groen achtergrondkleur */
+    color: white; /* Witte tekstkleur */
     font-size: 1.1em;
+    padding: 10px;
+    text-align: left;
+    transition: background-color 0.3s ease, text-decoration 0.3s ease;
 }
+
+/* Hover effect voor kopjes */
+th:hover {
+    background-color: #45a049; /* Donkerder groen als je eroverheen beweegt */
+    text-decoration: underline; /* Onderstreep de tekst als je erover beweegt */
+}
+
 
 tr:hover {
     background-color: #f1f1f1;
