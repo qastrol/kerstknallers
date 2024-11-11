@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Effects</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigatiebalk wordt hier geladen -->
+    <div id="navbar">Navigatiebalk wordt geladen...</div>
+
+    <h1>Sound Effects</h1>
+    <p>Hieronder staan de beschikbare sound effects. Klik op de knop om de naam naar het klembord te kopiëren en in je bericht te gebruiken.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Effectnaam</th>
+                <th>Beschrijving</th>
+                <th>Actie</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Voorbeeld sound effects -->
+            <tr>
+                <td>Explosion</td>
+                <td>Een explosiegeluid voor dramatische momenten.</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Explosion')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>Applause</td>
+                <td>Een applausgeluid voor goed uitgevoerde acties.</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Applause')">Kopieer</button></td>
+            </tr>
+            <!-- Voeg hier meer sound effects toe -->
+        </tbody>
+    </table>
+
+    <script>
+        // Functie om effectnaam te kopiëren naar klembord
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Naam '${text}' gekopieerd naar het klembord!`);
+            }).catch(err => {
+                console.error('Kopiëren mislukt', err);
+            });
+        }
+
+        // Inline HTML van de navigatiebalk als fallback
+        const navHTML = `
+            <nav style="background-color: #4CAF50; padding: 10px;">
+                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
+                    <li><a href="home.html" style="color: white; text-decoration: none;">Home</a></li>
+                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
+                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
+                    <li><a href="sound-effects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
+                </ul>
+            </nav>
+        `;
+
+        // Functie om nav.html in te laden of fallback HTML te gebruiken
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("./nav.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Netwerkfout bij het ophalen van nav.html");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("navbar").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Fout bij het laden van de navigatiebalk:', error);
+                    document.getElementById("navbar").innerHTML = navHTML;
+                });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+/* Algemene styling voor body en tekst */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Navigatiebalk styling */
+nav {
+    background-color: #4CAF50;
+    padding: 15px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 5px 10px;
+}
+
+nav a:hover {
+    background-color: #45a049;
+    border-radius: 5px;
+}
+
+/* Header styling */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2em;
+    color: #333;
+}
+
+/* Styling voor de tabel */
+table {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.1em;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.copy-btn {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.copy-btn:hover {
+    background-color: #005f73;
+}
+
+/* Media query voor grotere schermen (vanaf 1024px en breder) */
+@media (min-width: 1024px) {
+    body {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+    table {
+        width: 80%;
+    }
+}
+
+/* Media query voor schermen tussen 768px en 1024px */
+@media (max-width: 1024px) and (min-width: 768px) {
+    body {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    table {
+        width: 85%;
+    }
+}
+
+/* Media query voor mobiele schermen (max-width 768px) */
+@media (max-width: 768px) {
+    body {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
