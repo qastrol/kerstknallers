@@ -53,28 +53,31 @@
             });
         }
 
-        // Functie om de tabel te sorteren
-        function sortTable(n) {
-            const table = document.querySelector("table");
-            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+// Functie om de tabel te sorteren
+function sortTable(n) {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
 
-            const isNumeric = rows.every(row => !isNaN(row.cells[n].innerText.trim()));
-            const sortedRows = rows.sort((rowA, rowB) => {
-                const textA = rowA.cells[n].innerText.trim();
-                const textB = rowB.cells[n].innerText.trim();
+    // Bepaal of we numeriek moeten sorteren
+    const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
 
-                // Als de kolom numeriek is, sorteer numeriek
-                if (isNumeric) {
-                    return parseFloat(textA) - parseFloat(textB);
-                }
+    const sortedRows = rows.sort((rowA, rowB) => {
+        const textA = rowA.cells[n].innerText.trim();
+        const textB = rowB.cells[n].innerText.trim();
 
-                // Anders, sorteer als tekst
-                return textA.localeCompare(textB);
-            });
-
-            // Voeg de gesorteerde rijen terug in de tabel
-            sortedRows.forEach(row => table.appendChild(row));
+        if (isNumeric) {
+            // Sorteren op numerieke waarden
+            return parseFloat(textA) - parseFloat(textB);
+        } else {
+            // Sorteren op tekst (case-insensitive)
+            return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
         }
+    });
+
+    // Voeg de gesorteerde rijen terug in de tabel
+    sortedRows.forEach(row => table.appendChild(row));
+}
+
 
         // Functie om de tabel te filteren op basis van de zoekopdracht
         function searchTable() {
