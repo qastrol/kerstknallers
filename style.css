@@ -83,6 +83,17 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+th.sortable:hover {
+    background-color: #f1f1f1;
+    color: #4CAF50;
+}
+
+
 .copy-btn {
     background-color: #008CBA;
     color: white;

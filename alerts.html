@@ -20,32 +20,31 @@
     <table>
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Effectnaam</th>
-                <th onclick="sortTable(1)">Beschrijving</th>
+                <th class="sortable" onclick="sortTable(0)">Effectnaam</th>
+                <th class="sortable" onclick="sortTable(1)">Beschrijving</th>
                 <th>Actie</th>
             </tr>
         </thead>
         <tbody id="alertTable">
-            <!-- Voorbeeld alerts -->
             <tr>
                 <td>Niks</td>
                 <td>Geen alert beschikbaar</td>
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Niks</td>
-                <td>Geen alert beschikbaar</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Alert 1</td>
+                <td>Test alert</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Alert 1')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Niks</td>
-                <td>Geen alert beschikbaar</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Alert 2</td>
+                <td>Test alert 2</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Alert 2')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Niks</td>
-                <td>Geen alert beschikbaar</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Alert 3</td>
+                <td>Test alert 3</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Alert 3')">Kopieer</button></td>
             </tr>
         </tbody>
     </table>
@@ -94,31 +93,27 @@
         });
 
         // Functie om de tabel te sorteren
-// Functie om de tabel te sorteren
-function sortTable(n) {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+        function sortTable(n) {
+            const table = document.querySelector("table");
+            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
 
-    // Bepaal of we numeriek moeten sorteren
-    const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
+            const isNumeric = rows.every(row => !isNaN(row.cells[n].innerText.trim()));
+            const sortedRows = rows.sort((rowA, rowB) => {
+                const textA = rowA.cells[n].innerText.trim();
+                const textB = rowB.cells[n].innerText.trim();
 
-    const sortedRows = rows.sort((rowA, rowB) => {
-        const textA = rowA.cells[n].innerText.trim();
-        const textB = rowB.cells[n].innerText.trim();
+                // Als de kolom numeriek is, sorteer numeriek
+                if (isNumeric) {
+                    return parseFloat(textA) - parseFloat(textB);
+                }
 
-        if (isNumeric) {
-            // Sorteren op numerieke waarden
-            return parseFloat(textA) - parseFloat(textB);
-        } else {
-            // Sorteren op tekst (case-insensitive)
-            return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
+                // Anders, sorteer als tekst
+                return textA.localeCompare(textB);
+            });
+
+            // Voeg de gesorteerde rijen terug in de tabel
+            sortedRows.forEach(row => table.appendChild(row));
         }
-    });
-
-    // Voeg de gesorteerde rijen terug in de tabel
-    sortedRows.forEach(row => table.appendChild(row));
-}
-
 
         // Functie om de tabel te filteren op basis van de zoekopdracht
         function searchTable() {
