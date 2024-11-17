@@ -188,6 +188,11 @@
             }
         }
 
+        // Sorteren op 'Stemnaam' bij het laden van de pagina
+        document.addEventListener("DOMContentLoaded", function() {
+            sortTable(0); // Sorteer op de eerste kolom (stemnaam)
+        });
+
         // Inline HTML van de navigatiebalk als fallback
         const navHTML = `
             <nav style="background-color: #4CAF50; padding: 10px;">
