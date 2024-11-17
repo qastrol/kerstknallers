@@ -24,7 +24,7 @@
             <tr>
                 <th onclick="sortTable(0)">Stemnaam</th>
                 <th onclick="sortTable(1)">Beschrijving</th>
-                <th onclick="sortTable(2)">TTS Categorie</th> <!-- Nieuwe kolom voor TTS categorie -->
+                <th onclick="sortTable(2)">TTS Categorie</th>
                 <th>Actie</th>
             </tr>
         </thead>
@@ -33,28 +33,102 @@
             <tr>
                 <td>!david!</td>
                 <td>De Engelse mannelijke Microsoft-stem.</td>
-                <td>Engels (Microsoft)</td> <!-- TTS Categorie -->
+                <td>Microsoft</td>
                 <td><button class="copy-btn" onclick="copyToClipboard('!david!')">Kopieer</button></td>
             </tr>
             <tr>
                 <td>!frank!</td>
                 <td>De Nederlandse Microsoft-stem.</td>
-                <td>Nederlands (Microsoft)</td> <!-- TTS Categorie -->
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Microsoft</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!frank!')">Kopieer</button></td>
             </tr>
             <tr>
                 <td>!trump!</td>
                 <td>Donald Trump.</td>
-                <td>Engels (Politiek)</td> <!-- TTS Categorie -->
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Persoonlijk</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!trump!')">Kopieer</button></td>
             </tr>
-            <!-- Voeg meer stemmen hier toe, met de categorie in de derde kolom -->
+            <tr>
+                <td>!stefan!</td>
+                <td>De tweede Vlaamse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!stefan!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!henk!</td>
+                <td>De tweede Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!henk!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!tom!</td>
+                <td>De derde Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!tom!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!anna!</td>
+                <td>De eerste Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!anna!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!emma!</td>
+                <td>De vierde Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!emma!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!julia!</td>
+                <td>De vijfde Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!julia!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!martine!</td>
+                <td>De eerste Vlaamse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!martine!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!inge!</td>
+                <td>De zesde Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!inge!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!niels!</td>
+                <td>De zevende Nederlandse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!niels!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!jan!</td>
+                <td>De vierde Vlaamse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!jan!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!astrid!</td>
+                <td>De derde Vlaamse TTS stem van Google.</td>
+                <td>Google</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('!astrid!')">Kopieer</button></td>
+            </tr>
+            <!-- Voeg meer stemmen hier toe -->
         </tbody>
     </table>
 
     <script>
-        let lastSortedColumn = -1; // Om de laatst gesorteerde kolom bij te houden
-        let lastSortDirection = 'asc'; // Om de laatst gebruikte sorteerrichting bij te houden
+        // Functie om effectnaam of stemnaam te kopiëren naar klembord
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Naam '${text}' gekopieerd naar het klembord!`);
+            }).catch(err => {
+                console.error('Kopiëren mislukt', err);
+            });
+        }
+
+        let sortDirection = [true, true, true]; // array om de sorteer volgorde bij te houden
 
         // Functie om de tabel te sorteren
         function sortTable(n) {
@@ -64,29 +138,7 @@
             // Bepaal of we numeriek moeten sorteren
             const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
 
-            let sortedRows;
-            if (n === lastSortedColumn) {
-                // Als de laatste gesorteerde kolom dezelfde is, omgekeerd sorteren
-                if (lastSortDirection === 'asc') {
-                    sortedRows = rows.reverse();
-                    lastSortDirection = 'desc';
-                } else {
-                    sortedRows = rows.sort(compareRows(n, isNumeric));
-                    lastSortDirection = 'asc';
-                }
-            } else {
-                sortedRows = rows.sort(compareRows(n, isNumeric));
-                lastSortedColumn = n;
-                lastSortDirection = 'asc';
-            }
-
-            // Voeg de gesorteerde rijen terug in de tabel
-            sortedRows.forEach(row => table.appendChild(row));
-        }
-
-        // Functie om rijen te vergelijken voor sorteren
-        function compareRows(n, isNumeric) {
-            return (rowA, rowB) => {
+            const sortedRows = rows.sort((rowA, rowB) => {
                 const textA = rowA.cells[n].innerText.trim();
                 const textB = rowB.cells[n].innerText.trim();
 
@@ -97,7 +149,17 @@
                     // Sorteren op tekst (case-insensitive)
                     return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
                 }
-            };
+            });
+
+            if (!sortDirection[n]) {
+                sortedRows.reverse(); // Omkeren als het in aflopende volgorde moet
+            }
+
+            // Voeg de gesorteerde rijen terug in de tabel
+            sortedRows.forEach(row => table.appendChild(row));
+
+            // Verander de sorteervolgorde voor de volgende keer
+            sortDirection[n] = !sortDirection[n];
         }
 
         // Functie om de tabel te filteren op basis van de zoekopdracht
