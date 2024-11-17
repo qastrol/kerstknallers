@@ -357,7 +357,7 @@
     </table>
 
     <script>
-        // Functie om effectnaam te kopiëren naar klembord
+        // Functie om effectnaam of stemnaam te kopiëren naar klembord
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 alert(`Naam '${text}' gekopieerd naar het klembord!`);
@@ -366,7 +366,7 @@
             });
         }
 
-        let sortDirection = [true, true]; // array om de sorteer volgorde bij te houden
+        let sortDirection = [true, true, true]; // array om de sorteer volgorde bij te houden
 
         // Functie om de tabel te sorteren
         function sortTable(n) {
@@ -426,7 +426,11 @@
             }
         }
 
-        
+        // Sorteren op 'Stemnaam' bij het laden van de pagina
+        document.addEventListener("DOMContentLoaded", function() {
+            sortTable(0); // Sorteer op de eerste kolom (stemnaam)
+        });
+
         // Inline HTML van de navigatiebalk als fallback
         const navHTML = `
             <nav style="background-color: #4CAF50; padding: 10px;">
@@ -439,9 +443,22 @@
             </nav>
         `;
 
-        // Sorteren op 'Effectnaam' bij het laden van de pagina
-        document.addEventListener("DOMContentLoaded", function() {
-            sortTable(0); // Sorteer op de eerste kolom (effectnaam)
+        // Functie om nav.html in te laden of fallback HTML te gebruiken
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("./nav.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Netwerkfout bij het ophalen van nav.html");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("navbar").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Fout bij het laden van de navigatiebalk:', error);
+                    document.getElementById("navbar").innerHTML = navHTML;
+                });
         });
     </script>
 
