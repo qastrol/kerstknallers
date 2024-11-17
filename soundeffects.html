@@ -30,14 +30,19 @@
         <tbody id="soundEffectsTable">
             <!-- Voorbeeld sound effects -->
             <tr>
-                <td>Niks</td>
-                <td>Niks</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Explosion</td>
+                <td>Explosiegeluiden</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Explosion')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Ping</td>
-                <td>Een korte geluidsping</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Ping')">Kopieer</button></td>
+                <td>Thunder</td>
+                <td>Onweersgeluiden</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Thunder')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>Birds</td>
+                <td>Vogels die fluiten</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Birds')">Kopieer</button></td>
             </tr>
             <!-- Voeg meer sound effects hier toe -->
         </tbody>
@@ -53,12 +58,14 @@
             });
         }
 
+        let sortDirection = [true, true]; // array om de sorteer volgorde bij te houden
+
         // Functie om de tabel te sorteren
-        let sortDirection = [true, true]; // true = oplopend, false = aflopend
         function sortTable(n) {
             const table = document.querySelector("table");
             const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
 
+            // Bepaal of we numeriek moeten sorteren
             const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
 
             const sortedRows = rows.sort((rowA, rowB) => {
@@ -66,16 +73,22 @@
                 const textB = rowB.cells[n].innerText.trim();
 
                 if (isNumeric) {
-                    return (parseFloat(textA) - parseFloat(textB)) * (sortDirection[n] ? 1 : -1);
+                    // Sorteren op numerieke waarden
+                    return parseFloat(textA) - parseFloat(textB);
                 } else {
-                    return textA.localeCompare(textB, 'nl', { sensitivity: 'base' }) * (sortDirection[n] ? 1 : -1);
+                    // Sorteren op tekst (case-insensitive)
+                    return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
                 }
             });
+
+            if (!sortDirection[n]) {
+                sortedRows.reverse(); // Omkeren als het in aflopende volgorde moet
+            }
 
             // Voeg de gesorteerde rijen terug in de tabel
             sortedRows.forEach(row => table.appendChild(row));
 
-            // Wijzig de sorteer richting voor de volgende klik
+            // Verander de sorteervolgorde voor de volgende keer
             sortDirection[n] = !sortDirection[n];
         }
 
@@ -105,9 +118,39 @@
             }
         }
 
-        // Sorteer standaard op de eerste kolom (Effectnaam)
+        // Sorteren op 'Effectnaam' bij het laden van de pagina
         document.addEventListener("DOMContentLoaded", function() {
             sortTable(0); // Sorteer op de eerste kolom (effectnaam)
+        });
+
+        // Inline HTML van de navigatiebalk als fallback
+        const navHTML = `
+            <nav style="background-color: #4CAF50; padding: 10px;">
+                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
+                    <li><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
+                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
+                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
+                    <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
+                </ul>
+            </nav>
+        `;
+
+        // Functie om nav.html in te laden of fallback HTML te gebruiken
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("./nav.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Netwerkfout bij het ophalen van nav.html");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("navbar").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Fout bij het laden van de navigatiebalk:', error);
+                    document.getElementById("navbar").innerHTML = navHTML;
+                });
         });
     </script>
 

@@ -20,8 +20,8 @@
     <table>
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Effectnaam</th>
-                <th onclick="sortTable(1)">Beschrijving</th>
+                <th class="sortable" onclick="sortTable(0)">Effectnaam</th>
+                <th class="sortable" onclick="sortTable(1)">Beschrijving</th>
                 <th>Actie</th>
             </tr>
         </thead>
@@ -59,8 +59,9 @@
             });
         }
 
+        let sortDirection = [true, true]; // array om de sorteer volgorde bij te houden
+
         // Functie om de tabel te sorteren
-        let sortDirection = [true, true]; // true = oplopend, false = aflopend
         function sortTable(n) {
             const table = document.querySelector("table");
             const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
@@ -70,17 +71,23 @@
                 const textA = rowA.cells[n].innerText.trim();
                 const textB = rowB.cells[n].innerText.trim();
 
+                // Als de kolom numeriek is, sorteer numeriek
                 if (isNumeric) {
-                    return (parseFloat(textA) - parseFloat(textB)) * (sortDirection[n] ? 1 : -1);
-                } else {
-                    return textA.localeCompare(textB, 'nl', { sensitivity: 'base' }) * (sortDirection[n] ? 1 : -1);
+                    return parseFloat(textA) - parseFloat(textB);
                 }
+
+                // Anders, sorteer als tekst
+                return textA.localeCompare(textB);
             });
+
+            if (!sortDirection[n]) {
+                sortedRows.reverse(); // Omkeren als het in aflopende volgorde moet
+            }
 
             // Voeg de gesorteerde rijen terug in de tabel
             sortedRows.forEach(row => table.appendChild(row));
 
-            // Wijzig de sorteer richting voor de volgende klik
+            // Verander de sorteervolgorde voor de volgende keer
             sortDirection[n] = !sortDirection[n];
         }
 
@@ -110,9 +117,39 @@
             }
         }
 
-        // Sorteer standaard op de eerste kolom (Effectnaam)
+        // Standaard sorteren op de eerste kolom (Effectnaam) bij het laden van de pagina
         document.addEventListener("DOMContentLoaded", function() {
             sortTable(0); // Sorteer op de eerste kolom (effectnaam)
+        });
+
+        // Inline HTML van de navigatiebalk als fallback
+        const navHTML = `
+            <nav style="background-color: #4CAF50; padding: 10px;">
+                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
+                    <li><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
+                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
+                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
+                    <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
+                </ul>
+            </nav>
+        `;
+
+        // Functie om nav.html in te laden of fallback HTML te gebruiken
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("./nav.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Netwerkfout bij het ophalen van nav.html");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("navbar").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Fout bij het laden van de navigatiebalk:', error);
+                    document.getElementById("navbar").innerHTML = navHTML;
+                });
         });
     </script>
 
