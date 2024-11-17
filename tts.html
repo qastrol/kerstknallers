@@ -24,65 +24,81 @@
             <tr>
                 <th onclick="sortTable(0)">Stemnaam</th>
                 <th onclick="sortTable(1)">Beschrijving</th>
+                <th onclick="sortTable(2)">TTS Categorie</th> <!-- Nieuwe kolom voor TTS categorie -->
                 <th>Actie</th>
             </tr>
         </thead>
         <tbody id="ttsTable">
             <!-- Voorbeeld TTS stemmen -->
             <tr>
-                <td>Niks</td>
-                <td>Geen stem beschikbaar.</td>
+                <td>!david!</td>
+                <td>De Engelse mannelijke Microsoft-stem.</td>
+                <td>Engels (Microsoft)</td> <!-- TTS Categorie -->
+                <td><button class="copy-btn" onclick="copyToClipboard('!david!')">Kopieer</button></td>
+            </tr>
+            <tr>
+                <td>!frank!</td>
+                <td>De Nederlandse Microsoft-stem.</td>
+                <td>Nederlands (Microsoft)</td> <!-- TTS Categorie -->
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Niks</td>
-                <td>Geen stem beschikbaar.</td>
+                <td>!trump!</td>
+                <td>Donald Trump.</td>
+                <td>Engels (Politiek)</td> <!-- TTS Categorie -->
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
-            <tr>
-                <td>Niks</td>
-                <td>Geen stem beschikbaar.</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
-            </tr>
-            <!-- Voeg meer stemmen hier toe -->
+            <!-- Voeg meer stemmen hier toe, met de categorie in de derde kolom -->
         </tbody>
     </table>
 
     <script>
-        // Functie om effectnaam of stemnaam te kopiëren naar klembord
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert(`Naam '${text}' gekopieerd naar het klembord!`);
-            }).catch(err => {
-                console.error('Kopiëren mislukt', err);
-            });
+        let lastSortedColumn = -1; // Om de laatst gesorteerde kolom bij te houden
+        let lastSortDirection = 'asc'; // Om de laatst gebruikte sorteerrichting bij te houden
+
+        // Functie om de tabel te sorteren
+        function sortTable(n) {
+            const table = document.querySelector("table");
+            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+
+            // Bepaal of we numeriek moeten sorteren
+            const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
+
+            let sortedRows;
+            if (n === lastSortedColumn) {
+                // Als de laatste gesorteerde kolom dezelfde is, omgekeerd sorteren
+                if (lastSortDirection === 'asc') {
+                    sortedRows = rows.reverse();
+                    lastSortDirection = 'desc';
+                } else {
+                    sortedRows = rows.sort(compareRows(n, isNumeric));
+                    lastSortDirection = 'asc';
+                }
+            } else {
+                sortedRows = rows.sort(compareRows(n, isNumeric));
+                lastSortedColumn = n;
+                lastSortDirection = 'asc';
+            }
+
+            // Voeg de gesorteerde rijen terug in de tabel
+            sortedRows.forEach(row => table.appendChild(row));
         }
 
-// Functie om de tabel te sorteren
-function sortTable(n) {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+        // Functie om rijen te vergelijken voor sorteren
+        function compareRows(n, isNumeric) {
+            return (rowA, rowB) => {
+                const textA = rowA.cells[n].innerText.trim();
+                const textB = rowB.cells[n].innerText.trim();
 
-    // Bepaal of we numeriek moeten sorteren
-    const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
-
-    const sortedRows = rows.sort((rowA, rowB) => {
-        const textA = rowA.cells[n].innerText.trim();
-        const textB = rowB.cells[n].innerText.trim();
-
-        if (isNumeric) {
-            // Sorteren op numerieke waarden
-            return parseFloat(textA) - parseFloat(textB);
-        } else {
-            // Sorteren op tekst (case-insensitive)
-            return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
+                if (isNumeric) {
+                    // Sorteren op numerieke waarden
+                    return parseFloat(textA) - parseFloat(textB);
+                } else {
+                    // Sorteren op tekst (case-insensitive)
+                    return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
+                }
+            };
         }
-    });
-
-    // Voeg de gesorteerde rijen terug in de tabel
-    sortedRows.forEach(row => table.appendChild(row));
-}
-
 
         // Functie om de tabel te filteren op basis van de zoekopdracht
         function searchTable() {
