@@ -35,9 +35,9 @@
                 <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
             </tr>
             <tr>
-                <td>Niks</td>
-                <td>Niks</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('Niks')">Kopieer</button></td>
+                <td>Ping</td>
+                <td>Een korte geluidsping</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('Ping')">Kopieer</button></td>
             </tr>
             <!-- Voeg meer sound effects hier toe -->
         </tbody>
@@ -53,31 +53,31 @@
             });
         }
 
-// Functie om de tabel te sorteren
-function sortTable(n) {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+        // Functie om de tabel te sorteren
+        let sortDirection = [true, true]; // true = oplopend, false = aflopend
+        function sortTable(n) {
+            const table = document.querySelector("table");
+            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
 
-    // Bepaal of we numeriek moeten sorteren
-    const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
+            const isNumeric = !isNaN(rows[0].cells[n].innerText.trim());
 
-    const sortedRows = rows.sort((rowA, rowB) => {
-        const textA = rowA.cells[n].innerText.trim();
-        const textB = rowB.cells[n].innerText.trim();
+            const sortedRows = rows.sort((rowA, rowB) => {
+                const textA = rowA.cells[n].innerText.trim();
+                const textB = rowB.cells[n].innerText.trim();
 
-        if (isNumeric) {
-            // Sorteren op numerieke waarden
-            return parseFloat(textA) - parseFloat(textB);
-        } else {
-            // Sorteren op tekst (case-insensitive)
-            return textA.localeCompare(textB, 'nl', { sensitivity: 'base' });
+                if (isNumeric) {
+                    return (parseFloat(textA) - parseFloat(textB)) * (sortDirection[n] ? 1 : -1);
+                } else {
+                    return textA.localeCompare(textB, 'nl', { sensitivity: 'base' }) * (sortDirection[n] ? 1 : -1);
+                }
+            });
+
+            // Voeg de gesorteerde rijen terug in de tabel
+            sortedRows.forEach(row => table.appendChild(row));
+
+            // Wijzig de sorteer richting voor de volgende klik
+            sortDirection[n] = !sortDirection[n];
         }
-    });
-
-    // Voeg de gesorteerde rijen terug in de tabel
-    sortedRows.forEach(row => table.appendChild(row));
-}
-
 
         // Functie om de tabel te filteren op basis van de zoekopdracht
         function searchTable() {
@@ -105,34 +105,9 @@ function sortTable(n) {
             }
         }
 
-        // Inline HTML van de navigatiebalk als fallback
-        const navHTML = `
-            <nav style="background-color: #4CAF50; padding: 10px;">
-                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
-                    <li><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
-                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
-                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
-                    <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
-                </ul>
-            </nav>
-        `;
-
-        // Functie om nav.html in te laden of fallback HTML te gebruiken
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("./nav.html")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Netwerkfout bij het ophalen van nav.html");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById("navbar").innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Fout bij het laden van de navigatiebalk:', error);
-                    document.getElementById("navbar").innerHTML = navHTML;
-                });
+        // Sorteer standaard op de eerste kolom (Effectnaam)
+        document.addEventListener("DOMContentLoaded", function() {
+            sortTable(0); // Sorteer op de eerste kolom (effectnaam)
         });
     </script>
 
