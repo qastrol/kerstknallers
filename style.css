@@ -5,7 +5,7 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
-    max-width: 1200px; /* Max breedte voor de body */
+    max-width: 1600px; /* Max breedte voor de body */
     width: 100%; /* Zorg ervoor dat de body de volledige breedte van het scherm kan gebruiken */
     margin: 0 auto; /* Centraal uitlijnen van de body */
     padding-left: 5%;
