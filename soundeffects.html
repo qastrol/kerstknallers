@@ -426,6 +426,19 @@
             }
         }
 
+        
+        // Inline HTML van de navigatiebalk als fallback
+        const navHTML = `
+            <nav style="background-color: #4CAF50; padding: 10px;">
+                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
+                    <li><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
+                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
+                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
+                    <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
+                </ul>
+            </nav>
+        `;
+
         // Sorteren op 'Effectnaam' bij het laden van de pagina
         document.addEventListener("DOMContentLoaded", function() {
             sortTable(0); // Sorteer op de eerste kolom (effectnaam)
