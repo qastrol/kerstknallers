@@ -96,7 +96,8 @@
             const lines = [];
             for (let i = 0; i < 9; i++) {
                 if (i % 3 === 0) lines.push("+-----+-----+-----+");
-                lines.push(`|${grid[i].slice(0, 3).join(' ')}|${grid[i].slice(3, 6).join(' ')}|${grid[i].slice(6, 9).join(' ')}|`);
+                const row = grid[i].map((n, idx) => (idx % 3 === 2 ? `${n}|` : `${n} `)).join('');
+                lines.push(`|${row.trim()}`);
             }
             lines.push("+-----+-----+-----+");
             return lines.join("\n");
