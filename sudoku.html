@@ -8,94 +8,78 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            padding: 20px;
         }
         textarea {
-            width: 90%;
-            height: 200px;
+            width: 300px;
+            height: 300px;
             font-family: monospace;
-        }
-        pre {
-            font-family: monospace;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            text-align: left;
-            display: inline-block;
-            border: 1px solid #ccc;
-            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
         }
         button {
             padding: 10px 20px;
-            margin: 5px;
             font-size: 16px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <h1>Sudoku Solver</h1>
-    <p>Voer een Sudoku in het volgende format in:</p>
-    <pre>
-+-----+-----+-----+
-|1 . .|. . .|. . .|
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-+-----+-----+-----+
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-+-----+-----+-----+
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-+-----+-----+-----+
-    </pre>
-    <textarea id="sudokuInput"></textarea><br>
+    <textarea id="sudokuInput" placeholder="Voer je sudoku in het juiste formaat in..."></textarea><br>
     <button onclick="solveSudoku()">Los op</button>
-    <button onclick="copySolution()">Kopieer oplossing</button>
-    <h2>Oplossing:</h2>
-    <pre id="solution"></pre>
+    <button onclick="copyToClipboard()" style="display: none;" id="copyButton">Kopieer oplossing</button>
+    <p id="message" class="error"></p>
+    <textarea id="sudokuOutput" readonly style="display: none;"></textarea>
 
     <script>
         function parseSudoku(input) {
-            const rows = input.split("\n").filter(row => row.includes("|"));
-            return rows.map(row => {
-                return row.replace(/[+|]/g, '').trim().split(' ').map(cell => cell === '.' ? 0 : parseInt(cell));
+            const rows = input.trim().split('\n').filter(row => !row.startsWith('+'));
+            if (rows.length !== 9) return null;
+            const grid = rows.map(row => {
+                const values = row.split('|').join('').trim().split(' ').filter(cell => cell !== '');
+                return values.map(val => (val === '.' ? 0 : parseInt(val)));
             });
+            return grid.every(row => row.length === 9) ? grid : null;
         }
 
-        function formatSudoku(board) {
-            let result = "+-----+-----+-----+\n";
+        function formatSudoku(grid) {
+            if (!grid) return null;
+            let output = '+-----+-----+-----+\n';
+            grid.forEach((row, rowIndex) => {
+                output += '|';
+                row.forEach((cell, colIndex) => {
+                    output += (cell === 0 ? '.' : cell) + ' ';
+                    if ((colIndex + 1) % 3 === 0) output += '|';
+                });
+                output = output.trim() + '\n';
+                if ((rowIndex + 1) % 3 === 0) output += '+-----+-----+-----+\n';
+            });
+            return output.trim();
+        }
+
+        function isValid(grid, row, col, num) {
             for (let i = 0; i < 9; i++) {
-                result += "|";
-                for (let j = 0; j < 9; j++) {
-                    result += board[i][j] === 0 ? "." : board[i][j];
-                    if ((j + 1) % 3 === 0) result += "|";
-                    else result += " ";
+                if (grid[row][i] === num || grid[i][col] === num ||
+                    grid[Math.floor(row / 3) * 3 + Math.floor(i / 3)][Math.floor(col / 3) * 3 + (i % 3)] === num) {
+                    return false;
                 }
-                result += "\n";
-                if ((i + 1) % 3 === 0) result += "+-----+-----+-----+\n";
-            }
-            return result;
-        }
-
-        function isValid(board, row, col, num) {
-            for (let x = 0; x < 9; x++) {
-                if (board[row][x] === num || board[x][col] === num) return false;
-                const startRow = Math.floor(row / 3) * 3;
-                const startCol = Math.floor(col / 3) * 3;
-                if (board[startRow + Math.floor(x / 3)][startCol + x % 3] === num) return false;
             }
             return true;
         }
 
-        function solve(board) {
+        function solve(grid) {
             for (let row = 0; row < 9; row++) {
                 for (let col = 0; col < 9; col++) {
-                    if (board[row][col] === 0) {
+                    if (grid[row][col] === 0) {
                         for (let num = 1; num <= 9; num++) {
-                            if (isValid(board, row, col, num)) {
-                                board[row][col] = num;
-                                if (solve(board)) return true;
-                                board[row][col] = 0;
+                            if (isValid(grid, row, col, num)) {
+                                grid[row][col] = num;
+                                if (solve(grid)) return true;
+                                grid[row][col] = 0;
                             }
                         }
                         return false;
@@ -106,23 +90,38 @@
         }
 
         function solveSudoku() {
-            const input = document.getElementById("sudokuInput").value;
-            let board = parseSudoku(input);
-            if (solve(board)) {
-                const solution = formatSudoku(board);
-                document.getElementById("solution").textContent = solution;
+            const input = document.getElementById('sudokuInput').value;
+            const parsedGrid = parseSudoku(input);
+            const messageEl = document.getElementById('message');
+            const outputEl = document.getElementById('sudokuOutput');
+            const copyButton = document.getElementById('copyButton');
+
+            if (!parsedGrid) {
+                messageEl.textContent = "Ongeldig formaat. Controleer je invoer.";
+                outputEl.style.display = 'none';
+                copyButton.style.display = 'none';
+                return;
+            }
+
+            const solvedGrid = JSON.parse(JSON.stringify(parsedGrid));
+            if (solve(solvedGrid)) {
+                const formattedSolution = formatSudoku(solvedGrid);
+                messageEl.textContent = '';
+                outputEl.value = formattedSolution;
+                outputEl.style.display = 'block';
+                copyButton.style.display = 'block';
             } else {
-                document.getElementById("solution").textContent = "Geen oplossing gevonden!";
+                messageEl.textContent = "De sudoku is niet oplosbaar.";
+                outputEl.style.display = 'none';
+                copyButton.style.display = 'none';
             }
         }
 
-        function copySolution() {
-            const solution = document.getElementById("solution").textContent;
-            navigator.clipboard.writeText(solution).then(() => {
-                alert("Oplossing gekopieerd naar klembord!");
-            }).catch(err => {
-                alert("Fout bij het kopiëren: " + err);
-            });
+        function copyToClipboard() {
+            const outputEl = document.getElementById('sudokuOutput');
+            outputEl.select();
+            document.execCommand('copy');
+            alert("Oplossing gekopieerd naar het klembord!");
         }
     </script>
 </body>
