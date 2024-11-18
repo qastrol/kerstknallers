@@ -8,7 +8,6 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 20px;
         }
         textarea {
             width: 90%;
@@ -17,13 +16,16 @@
         }
         pre {
             font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
             text-align: left;
-            margin: auto;
-            width: fit-content;
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 10px;
         }
         button {
             padding: 10px 20px;
-            margin: 10px;
+            margin: 5px;
             font-size: 16px;
         }
     </style>
@@ -33,7 +35,7 @@
     <p>Voer een Sudoku in het volgende format in:</p>
     <pre>
 +-----+-----+-----+
-|. . .|. . .|. . .|
+|1 . .|. . .|. . .|
 |. . .|. . .|. . .|
 |. . .|. . .|. . .|
 +-----+-----+-----+
@@ -48,7 +50,7 @@
     </pre>
     <textarea id="sudokuInput"></textarea><br>
     <button onclick="solveSudoku()">Los op</button>
-    <button onclick="copyToClipboard()">Kopieer oplossing</button>
+    <button onclick="copySolution()">Kopieer oplossing</button>
     <h2>Oplossing:</h2>
     <pre id="solution"></pre>
 
@@ -56,24 +58,22 @@
         function parseSudoku(input) {
             const rows = input.split("\n").filter(row => row.includes("|"));
             return rows.map(row => {
-                return row
-                    .replace(/[+|]/g, '') // Verwijder randtekens
-                    .trim()
-                    .split(' ')
-                    .map(cell => (cell === '.' ? 0 : parseInt(cell)));
+                return row.replace(/[+|]/g, '').trim().split(' ').map(cell => cell === '.' ? 0 : parseInt(cell));
             });
         }
 
         function formatSudoku(board) {
             let result = "+-----+-----+-----+\n";
-            board.forEach((row, i) => {
+            for (let i = 0; i < 9; i++) {
                 result += "|";
-                row.forEach((num, j) => {
-                    result += (num || '.') + ((j + 1) % 3 === 0 ? "|" : " ");
-                });
+                for (let j = 0; j < 9; j++) {
+                    result += board[i][j] === 0 ? "." : board[i][j];
+                    if ((j + 1) % 3 === 0) result += "|";
+                    else result += " ";
+                }
                 result += "\n";
                 if ((i + 1) % 3 === 0) result += "+-----+-----+-----+\n";
-            });
+            }
             return result;
         }
 
@@ -116,15 +116,13 @@
             }
         }
 
-        function copyToClipboard() {
+        function copySolution() {
             const solution = document.getElementById("solution").textContent;
-            if (solution) {
-                navigator.clipboard.writeText(solution)
-                    .then(() => alert("Oplossing gekopieerd naar klembord!"))
-                    .catch(err => alert("Kopiëren mislukt: " + err));
-            } else {
-                alert("Er is geen oplossing om te kopiëren.");
-            }
+            navigator.clipboard.writeText(solution).then(() => {
+                alert("Oplossing gekopieerd naar klembord!");
+            }).catch(err => {
+                alert("Fout bij het kopiëren: " + err);
+            });
         }
     </script>
 </body>
