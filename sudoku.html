@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        textarea {
+            width: 90%;
+            height: 200px;
+            font-family: monospace;
+        }
+        pre {
+            font-family: monospace;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sudoku Solver</h1>
+    <p>Voer een Sudoku in het volgende format in:</p>
+    <pre>
++-----+-----+-----+
+|. . .|. . .|. . .|
+|. . .|. . .|. . .|
+|. . .|. . .|. . .|
++-----+-----+-----+
+|. . .|. . .|. . .|
+|. . .|. . .|. . .|
+|. . .|. . .|. . .|
++-----+-----+-----+
+|. . .|. . .|. . .|
+|. . .|. . .|. . .|
+|. . .|. . .|. . .|
++-----+-----+-----+
+    </pre>
+    <textarea id="sudokuInput"></textarea><br>
+    <button onclick="solveSudoku()">Los op</button>
+    <h2>Oplossing:</h2>
+    <pre id="solution"></pre>
+
+    <script>
+        function parseSudoku(input) {
+            const rows = input.split("\n").filter(row => row.includes("|"));
+            return rows.map(row => {
+                return row.replace(/[+|]/g, '').trim().split(' ').map(cell => cell === '.' ? 0 : parseInt(cell));
+            });
+        }
+
+        function formatSudoku(board) {
+            let result = "+-----+-----+-----+\n";
+            board.forEach((row, i) => {
+                result += "|";
+                row.forEach((num, j) => {
+                    result += num || '.';
+                    if ((j + 1) % 3 === 0) result += "|";
+                    else result += " ";
+                });
+                result += "\n";
+                if ((i + 1) % 3 === 0) result += "+-----+-----+-----+\n";
+            });
+            return result;
+        }
+
+        function isValid(board, row, col, num) {
+            for (let x = 0; x < 9; x++) {
+                if (board[row][x] === num || board[x][col] === num) return false;
+                const startRow = Math.floor(row / 3) * 3;
+                const startCol = Math.floor(col / 3) * 3;
+                if (board[startRow + Math.floor(x / 3)][startCol + x % 3] === num) return false;
+            }
+            return true;
+        }
+
+        function solve(board) {
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    if (board[row][col] === 0) {
+                        for (let num = 1; num <= 9; num++) {
+                            if (isValid(board, row, col, num)) {
+                                board[row][col] = num;
+                                if (solve(board)) return true;
+                                board[row][col] = 0;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function solveSudoku() {
+            const input = document.getElementById("sudokuInput").value;
+            let board = parseSudoku(input);
+            if (solve(board)) {
+                document.getElementById("solution").textContent = formatSudoku(board);
+            } else {
+                document.getElementById("solution").textContent = "Geen oplossing gevonden!";
+            }
+        }
+    </script>
+</body>
+</html>
