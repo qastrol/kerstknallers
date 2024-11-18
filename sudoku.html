@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 20px;
         }
         textarea {
             width: 90%;
@@ -16,10 +17,13 @@
         }
         pre {
             font-family: monospace;
+            text-align: left;
+            margin: auto;
+            width: fit-content;
         }
         button {
             padding: 10px 20px;
-            margin-top: 10px;
+            margin: 10px;
             font-size: 16px;
         }
     </style>
@@ -44,6 +48,7 @@
     </pre>
     <textarea id="sudokuInput"></textarea><br>
     <button onclick="solveSudoku()">Los op</button>
+    <button onclick="copyToClipboard()">Kopieer oplossing</button>
     <h2>Oplossing:</h2>
     <pre id="solution"></pre>
 
@@ -51,7 +56,11 @@
         function parseSudoku(input) {
             const rows = input.split("\n").filter(row => row.includes("|"));
             return rows.map(row => {
-                return row.replace(/[+|]/g, '').trim().split(' ').map(cell => cell === '.' ? 0 : parseInt(cell));
+                return row
+                    .replace(/[+|]/g, '') // Verwijder randtekens
+                    .trim()
+                    .split(' ')
+                    .map(cell => (cell === '.' ? 0 : parseInt(cell)));
             });
         }
 
@@ -60,9 +69,7 @@
             board.forEach((row, i) => {
                 result += "|";
                 row.forEach((num, j) => {
-                    result += num || '.';
-                    if ((j + 1) % 3 === 0) result += "|";
-                    else result += " ";
+                    result += (num || '.') + ((j + 1) % 3 === 0 ? "|" : " ");
                 });
                 result += "\n";
                 if ((i + 1) % 3 === 0) result += "+-----+-----+-----+\n";
@@ -102,9 +109,21 @@
             const input = document.getElementById("sudokuInput").value;
             let board = parseSudoku(input);
             if (solve(board)) {
-                document.getElementById("solution").textContent = formatSudoku(board);
+                const solution = formatSudoku(board);
+                document.getElementById("solution").textContent = solution;
             } else {
                 document.getElementById("solution").textContent = "Geen oplossing gevonden!";
+            }
+        }
+
+        function copyToClipboard() {
+            const solution = document.getElementById("solution").textContent;
+            if (solution) {
+                navigator.clipboard.writeText(solution)
+                    .then(() => alert("Oplossing gekopieerd naar klembord!"))
+                    .catch(err => alert("Kopiëren mislukt: " + err));
+            } else {
+                alert("Er is geen oplossing om te kopiëren.");
             }
         }
     </script>
