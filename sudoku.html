@@ -4,84 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudoku Solver</title>
+    <meta property="og:title" content="Sudoku oplosser">
+    <meta property="og:description" content="Koek">
+    <meta property="og:url" content="https://qastrol.github.io/site/sudoku/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="nl_NL">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
         }
-        textarea {
-            width: 400px;
-            height: 200px;
-            font-family: monospace;
+        h1 {
+            margin: 20px 0;
+        }
+        textarea, pre {
+            width: 80%;
+            max-width: 600px;
+            margin: 10px 0;
+            padding: 10px;
             font-size: 16px;
+            font-family: monospace;
         }
         button {
-            margin: 10px 0;
             padding: 10px 20px;
             font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        pre {
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
             font-family: monospace;
-            background-color: #f4f4f4;
-            padding: 10px;
+            white-space: pre;
         }
     </style>
 </head>
 <body>
     <h1>Sudoku Solver</h1>
-    <p>Voer een Sudoku in het onderstaande formaat in:</p>
-    <pre>+-----+-----+-----+
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-+-----+-----+-----+
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-+-----+-----+-----+
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-|. . .|. . .|. . .|
-+-----+-----+-----+</pre>
-    <textarea id="sudokuInput"></textarea>
-    <br>
-    <button onclick="solveSudoku()">Los Sudoku op</button>
-    <button id="copyButton" style="display: none;" onclick="copyToClipboard()">Kopieer naar klembord</button>
-    <h2>Oplossing:</h2>
-    <pre id="solutionOutput"></pre>
+    <textarea id="inputPuzzle" rows="10" placeholder="Enter your Sudoku puzzle here..."></textarea>
+    <button onclick="solveSudoku()">Solve Sudoku</button>
+    <pre id="output" class="output"></pre>
 
     <script>
-        function parseSudoku(input) {
-            const rows = input.split("\n").filter(line => line.includes('|'));
-            if (rows.length !== 9) return null;
-
+        function parseSudoku(puzzleStr) {
             const grid = [];
-            for (const row of rows) {
-                const cells = row.replace(/[|+]/g, '').trim().split(/\s+/);
-                if (cells.length !== 9) return null;
-                grid.push(cells.map(c => (c === '.' ? 0 : parseInt(c))));
-            }
+            puzzleStr.split('\n').forEach(line => {
+                if (line.includes('|')) {
+                    const row = [];
+                    for (const char of line) {
+                        if (char >= '1' && char <= '9') {
+                            row.push(parseInt(char, 10));
+                        } else if (char === '.') {
+                            row.push(0);
+                        }
+                    }
+                    if (row.length) grid.push(row);
+                }
+            });
             return grid;
         }
 
+        function formatSudoku(grid, originalFormat) {
+            const formatted = [];
+            let gridIndex = 0;
+            originalFormat.split('\n').forEach(line => {
+                if (line.includes('|')) {
+                    let formattedLine = '';
+                    for (const char of line) {
+                        if (char === '.') {
+                            const row = Math.floor(gridIndex / 9);
+                            const col = gridIndex % 9;
+                            formattedLine += grid[row][col];
+                            gridIndex++;
+                        } else if (char >= '1' && char <= '9') {
+                            formattedLine += char;
+                            gridIndex++;
+                        } else {
+                            formattedLine += char;
+                        }
+                    }
+                    formatted.push(formattedLine);
+                } else {
+                    formatted.push(line);
+                }
+            });
+            return formatted.join('\n');
+        }
+
         function isValid(grid, row, col, num) {
-            for (let x = 0; x < 9; x++) {
-                if (grid[row][x] === num || grid[x][col] === num || 
-                    grid[3 * Math.floor(row / 3) + Math.floor(x / 3)][3 * Math.floor(col / 3) + (x % 3)] === num) {
-                    return false;
+            for (let i = 0; i < 9; i++) {
+                if (grid[row][i] === num || grid[i][col] === num) return false;
+            }
+            const startRow = Math.floor(row / 3) * 3;
+            const startCol = Math.floor(col / 3) * 3;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (grid[startRow + i][startCol + j] === num) return false;
                 }
             }
             return true;
         }
 
-        function solve(grid) {
+        function solveSudokuRecursive(grid) {
             for (let row = 0; row < 9; row++) {
                 for (let col = 0; col < 9; col++) {
                     if (grid[row][col] === 0) {
                         for (let num = 1; num <= 9; num++) {
                             if (isValid(grid, row, col, num)) {
                                 grid[row][col] = num;
-                                if (solve(grid)) return true;
+                                if (solveSudokuRecursive(grid)) return true;
                                 grid[row][col] = 0;
                             }
                         }
@@ -92,44 +133,17 @@
             return true;
         }
 
-        function formatSudoku(grid) {
-            const lines = [];
-            for (let i = 0; i < 9; i++) {
-                if (i % 3 === 0) lines.push("+-----+-----+-----+");
-                const row = grid[i].map((n, idx) => (idx % 3 === 2 ? `${n}|` : `${n} `)).join('');
-                lines.push(`|${row.trim()}`);
-            }
-            lines.push("+-----+-----+-----+");
-            return lines.join("\n");
-        }
-
         function solveSudoku() {
-            const input = document.getElementById('sudokuInput').value;
+            const input = document.getElementById('inputPuzzle').value;
             const grid = parseSudoku(input);
+            const originalFormat = input;
 
-            if (!grid) {
-                document.getElementById('solutionOutput').textContent = "Ongeldig Sudoku-formaat!";
-                document.getElementById('copyButton').style.display = "none";
-                return;
-            }
-
-            if (solve(grid)) {
-                const solution = formatSudoku(grid);
-                document.getElementById('solutionOutput').textContent = solution;
-                document.getElementById('copyButton').style.display = "inline-block";
+            if (solveSudokuRecursive(grid)) {
+                const solvedPuzzle = formatSudoku(grid, originalFormat);
+                document.getElementById('output').textContent = solvedPuzzle;
             } else {
-                document.getElementById('solutionOutput').textContent = "De Sudoku is niet oplosbaar!";
-                document.getElementById('copyButton').style.display = "none";
+                document.getElementById('output').textContent = 'No solution found.';
             }
-        }
-
-        function copyToClipboard() {
-            const solution = document.getElementById('solutionOutput').textContent;
-            navigator.clipboard.writeText(solution).then(() => {
-                alert("Oplossing gekopieerd naar klembord!");
-            }).catch(err => {
-                alert("Fout bij het kopiëren naar klembord: " + err);
-            });
         }
     </script>
 </body>
