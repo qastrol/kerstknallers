@@ -53,6 +53,7 @@
     <h1>Sudoku Solver</h1>
     <textarea id="inputPuzzle" rows="10" placeholder="Enter your Sudoku puzzle here..."></textarea>
     <button onclick="solveSudoku()">Solve Sudoku</button>
+    <button onclick="copySolution()">Copy Solution</button>
     <pre id="output" class="output"></pre>
 
     <script>
@@ -143,6 +144,32 @@
                 document.getElementById('output').textContent = solvedPuzzle;
             } else {
                 document.getElementById('output').textContent = 'No solution found.';
+            }
+        }
+
+        function copySolution() {
+            const outputText = document.getElementById('output').textContent;
+
+            // Controleer of de output bestaat
+            if (outputText && outputText !== 'No solution found.') {
+                const textToCopy = `;antwoord\n${outputText}`;
+
+                // Maak een tijdelijke textarea om de tekst in te zetten en te kopiëren
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+
+                // Selecteer de tekst en kopieer deze naar het klembord
+                tempTextArea.select();
+                document.execCommand('copy');
+                
+                // Verwijder de tijdelijke textarea
+                document.body.removeChild(tempTextArea);
+
+                // Optioneel: toon een alert of een ander bericht aan de gebruiker
+                alert('Solution copied to clipboard!');
+            } else {
+                alert('No solution available to copy.');
             }
         }
     </script>
