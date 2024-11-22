@@ -1,22 +1,44 @@
 /* Algemene styling voor body en tekst */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0; /* Verwijder de standaard margin */
+    padding: 0 5%; /* Voeg padding toe aan beide zijden (links en rechts) */
     background-color: #f4f4f4;
     color: #333;
     max-width: 1800px; /* Max breedte voor de body */
-    width: 100%; /* Zorg ervoor dat de body de volledige breedte van het scherm kan gebruiken */
-    margin: 0 auto; /* Centraal uitlijnen van de body */
-    padding-left: 5%;
-    padding-right: 5%; /* Zorg ervoor dat de padding overal gelijk is */
+    width: 100%;
+    box-sizing: border-box; /* Zorg ervoor dat padding binnen de breedte wordt gerekend */
+}
+
+/* Media query voor grotere schermen (vanaf 1024px en breder) */
+@media (min-width: 1024px) {
+    body {
+        padding: 0 10%; /* Verhoog de padding naar 10% voor grotere schermen */
+    }
+}
+
+/* Media query voor schermen tussen 768px en 1024px */
+@media (max-width: 1024px) and (min-width: 768px) {
+    body {
+        padding: 0 7%; /* Verminder de padding voor schermen tussen 768px en 1024px */
+    }
+}
+
+/* Media query voor mobiele schermen (max-width 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 0 5%; /* Verminder de padding verder voor mobiele schermen */
+    }
 }
 
 /* Navigatiebalk styling */
 nav {
     background-color: #4CAF50;
-    padding: 15px;
-    text-align: center;
+    padding: 15px 0; /* Alleen verticale padding */
+    width: 100%; /* Zorg ervoor dat de navigatiebalk de volledige breedte van het scherm beslaat */
+    margin: 0; /* Verwijder marges zodat het niet naar het midden wordt geduwd */
+    position: relative; /* Zorg ervoor dat de navigatiebalk op zijn plaats blijft */
+    z-index: 1000; /* Zorg ervoor dat de navigatiebalk boven andere elementen blijft */
 }
 
 nav ul {
@@ -24,7 +46,7 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Zorg dat de links gecentreerd blijven */
     gap: 20px;
 }
 
@@ -32,20 +54,13 @@ nav a {
     color: white;
     text-decoration: none;
     font-size: 1.1em;
-    padding: 5px 10px;
+    padding: 10px 15px; /* Zorg voor klikbare ruimte */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 nav a:hover {
     background-color: #45a049;
     border-radius: 5px;
-}
-
-/* Header styling */
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 2em;
-    color: #333;
 }
 
 /* Styling voor de tabel */
@@ -108,45 +123,4 @@ th.sortable:hover {
 
 .copy-btn:hover {
     background-color: #005f73;
-}
-
-/* Media query voor grotere schermen (vanaf 1024px en breder) */
-@media (min-width: 1024px) {
-    body {
-        padding-left: 0%;
-        padding-right: 0%;
-    }
-
-    table {
-        width: 80%; /* Tabel neemt 80% van de breedte in voor grotere schermen */
-    }
-}
-
-/* Media query voor schermen tussen 768px en 1024px */
-@media (max-width: 1024px) and (min-width: 768px) {
-    body {
-        padding-left: 0%;
-        padding-right: 0%;
-    }
-
-    table {
-        width: 85%; /* Tabel neemt 85% van de breedte in voor middenschermen */
-    }
-}
-
-/* Media query voor mobiele schermen (max-width 768px) */
-@media (max-width: 768px) {
-    body {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    table {
-        width: 100%; /* Tabel neemt de volledige breedte in voor mobiele schermen */
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-    }
 }
