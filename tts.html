@@ -14,11 +14,11 @@
     <h1>Text-to-Speech</h1>
     <p>Hieronder staan de beschikbare TTS-stemmen. Klik op de knop om de naam naar het klembord te kopiëren en in je bericht te gebruiken.</p>
 
-    <h2>TTS Stemmen</h2>
-
     <!-- Zoekveld voor de TTS-stemmen -->
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Zoek op stemnaam of beschrijving..." style="padding: 8px; width: 100%; max-width: 400px; margin: 10px 0;">
 
+    <p>Aantal TTS stemmen: <span id="rowCount">0</span></p>
+    
     <table>
         <thead>
             <tr>
@@ -343,30 +343,51 @@
         }
 
         // Functie om de tabel te filteren op basis van de zoekopdracht
-        function searchTable() {
-            const input = document.getElementById("searchInput");
-            const filter = input.value.toLowerCase();  // Haal de zoekterm op en zet deze om naar kleine letters
-            const table = document.querySelector("table");
-            const rows = table.getElementsByTagName("tr");  // Alle rijen in de tabel
+        function updateRowCount() {
+        const table = document.querySelector("table");
+        const rows = table.getElementsByTagName("tr");  // Alle rijen in de tabel
+        let visibleRowCount = 0;
 
-            // Loop door alle rijen van de tabel (behalve de koprij)
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName("td");
-                let matchFound = false;
-
-                // Zoek door alle cellen in de rij
-                for (let j = 0; j < cells.length; j++) {
-                    const cellText = cells[j].textContent || cells[j].innerText;
-                    if (cellText.toLowerCase().indexOf(filter) > -1) {
-                        matchFound = true;
-                        break; // Stop met zoeken als er een match is
-                    }
-                }
-
-                // Toon of verberg de rij op basis van de zoekterm
-                rows[i].style.display = matchFound ? "" : "none";
+        // Loop door alle rijen en tel de zichtbare rijen
+        for (let i = 1; i < rows.length; i++) {
+            if (rows[i].style.display !== "none") {  // Controleer of de rij zichtbaar is
+                visibleRowCount++;
             }
         }
+
+        // Werk de counter bij in de UI
+        document.getElementById("rowCount").textContent = visibleRowCount;
+    }
+
+    // Functie om de tabel te filteren op basis van de zoekopdracht
+    function searchTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();  // Haal de zoekterm op en zet deze om naar kleine letters
+        const table = document.querySelector("table");
+        const rows = table.getElementsByTagName("tr");  // Alle rijen in de tabel
+
+        // Loop door alle rijen van de tabel (behalve de koprij)
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName("td");
+            let matchFound = false;
+
+            // Zoek door alle cellen in de rij
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent || cells[j].innerText;
+                if (cellText.toLowerCase().indexOf(filter) > -1) {
+                    matchFound = true;
+                    break; // Stop met zoeken als er een match is
+                }
+            }
+
+            // Toon of verberg de rij op basis van de zoekterm
+            rows[i].style.display = matchFound ? "" : "none";
+        }
+
+        // Werk de zichtbare rijcounter bij
+        updateRowCount();
+    }
+        
 
         // Sorteren op 'Stemnaam' bij het laden van de pagina
         document.addEventListener("DOMContentLoaded", function() {
@@ -387,6 +408,7 @@
 
         // Functie om nav.html in te laden of fallback HTML te gebruiken
         document.addEventListener("DOMContentLoaded", function () {
+            updateRowCount();  // Update het aantal rijen bij het laden van de pagina
             fetch("./nav.html")
                 .then(response => {
                     if (!response.ok) {

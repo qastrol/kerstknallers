@@ -17,6 +17,8 @@
     <!-- Zoekveld -->
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Zoek op effectnaam of beschrijving..." style="padding: 8px; width: 100%; max-width: 400px; margin: 10px 0;">
 
+    <p>Aantal alerts: <span id="rowCount">0</span></p>
+
     <table>
         <thead>
             <tr>
@@ -48,7 +50,7 @@
             </tr>
             <tr>
                 <td>&lt;brein&gt;</td>
-                <td>De inhoud van deze drager is beschermd door wetten van Intellectuele Eigendom waaronder de Auteurswet, de Wet op de Naburige Rechten, de Databankwet en de Beneluxmerkenwet. Deze drager mag uitsluitend vertoond worden in vrienden- of familiekring (huiselijke kring). Zonder toestemming van de rechthebbenden is ander gebruik, zoals het kopiëren, verhuren, uitlenen en vertonen in het openbaar, waaronder vertoning in horecagelegenheden, vakantieparken, werk en verenigings- of school-verband en via een tele(communicatie)netwerk verboden, - behoudens wettelijke uitzondering - en strafbaar gesteld als misdrijf. Op deze legale drager is een holografische veiligheidszegel aangebracht die mede een waarbord is voor beeld en geluidskwaliteit. Controleer of de veiligheidszegel aangebracht is. Indien u de veiligheidszegel niet aantreft heeft u te maken met een illegale kopie die mogelijk schadelijk is voor uw afspeelapparatuur. Belt u dan met BREIN 035 6215520 of in België met BAF 024631510. </td>
+                <td>De inhoud van deze drager is beschermd door wetten van Intellectuele Eigendom waaronder de Auteurswet, de Wet op de Naburige Rechten, de Databankwet en de Beneluxmerkenwet. Deze drager mag uitsluitend vertoond worden in vrienden- of familiekring (huiselijke kring). Zonder toestemming van de rechthebbenden is ander gebruik, zoals het kopiëren, verhuren, uitlenen en vertonen in het openbaar, waaronder vertoning in horecagelegenheden, vakantieparken, werk en verenigings- of school-verband en via een tele(communicatie)netwerk verboden, - behoudens wettelijke uitzondering - en strafbaar gesteld als misdrijf. </td>
                 <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
             </tr>
             <tr>
@@ -436,89 +438,225 @@
                 <td>Now! Then! Forever!</td>
                 <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
             </tr>
+                <tr>
+                    <td>&lt;attentiongamers&gt;</td>
+                    <td>Attention all Mario Kart gamers!</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;blooper&gt;</td>
+                    <td>Een Blooper spuit inkt over het scherm...</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;brickbybrick&gt;</td>
+                    <td>Brick by Brick van Lego Island</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;communicationerror&gt;</td>
+                    <td>POV: je raakt gedisconnected in Mario Kart</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;dvd&gt;</td>
+                    <td>Dit is de geweldige DVD-technologie</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;fryslan&gt;</td>
+                    <td>Fryslân Boppe</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;fzeronoob&gt;</td>
+                    <td>You got Noob-Power!</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;gigavis&gt;</td>
+                    <td>Het is de GIGACHAD van de vissen :O</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;hardekoeksoep&gt;</td>
+                    <td>Een HARD die uit een koeksoep komt</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;kruipindehuid&gt;</td>
+                    <td>Kruip in de huid van een bekend iemand...</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;nederlandkiest&gt;</td>
+                    <td>Nederland Kiest: Het WWE Lijsttrekkersdebat</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;noobbewaarder&gt;</td>
+                    <td>Ik kan het weten, ik ben er zelf eens door gered</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;npo1&gt;</td>
+                    <td>Even geduld...</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;pokemondans&gt;</td>
+                    <td>Pokémon Sun and Moon dans</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;rainbowroad&gt;</td>
+                    <td>It's called a road, it's called a Rainbow Road. It's a road that you go</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;reinhard&gt;</td>
+                    <td>Reinhard Mey wenst iedereen een goedenavond (1 euro per seconde)</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;robbierotten&gt;</td>
+                    <td>Robbie Rotten van Lazytown komt langs</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;sie&gt;</td>
+                    <td>JA! Nu heb ik 'm echt goed. SIIIIIIIIIIIIIEEEEEEEEEE!</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;tourflits&gt;</td>
+                    <td>NOS Radio Tourflits, Tourflits, Tourflits</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;turf&gt;</td>
+                    <td>Turf 😂</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;urigeller&gt;</td>
+                    <td>Waarschuwing. De meeste optredens in deze show zijn levensgevaarlijk. Alleen goed getrainde, professionele mentalisten kunnen deze uitvoeren. Doe dit thuis nooit na!</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;veryhard&gt;</td>
+                    <td>Donkey Kong is kaulo HARD</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;vismoment&gt;</td>
+                    <td>VIS MOMENT</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;visprofessioneel&gt;</td>
+                    <td>Waarom deze vis er niet professioneel uitziet?</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;walterwhite&gt;</td>
+                    <td>Walter White speelt Mario Kart</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;wevissenvissen&gt;</td>
+                    <td>Verder nergens om, maar we vissen vissen</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>
+                <tr>
+                    <td>&lt;woutschaap&gt;</td>
+                    <td>Een schaap in RuneScape</td>
+                    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+                </tr>      
         </tbody>
     </table>
 
     <script>
         // Functie om effectnaam te kopiëren naar klembord
         function copyToClipboard(button) {
-    // Vind de rij waarin de knop zich bevindt
-    const row = button.closest('tr');
-    // Pak de inhoud van de eerste cel in die rij
-    const effectName = row.cells[0].innerText.trim();
-    // Kopieer de tekst naar het klembord
-    navigator.clipboard.writeText(effectName).then(() => {
-        alert(`Effectnaam '${effectName}' gekopieerd naar het klembord!`);
-    }).catch(err => {
-        console.error('Kopiëren mislukt', err);
-    });
-}
+            const row = button.closest('tr');
+            const effectName = row.cells[0].innerText.trim();
+            navigator.clipboard.writeText(effectName).then(() => {
+                alert(`Effectnaam '${effectName}' gekopieerd naar het klembord!`);
+            }).catch(err => {
+                console.error('Kopiëren mislukt', err);
+            });
+        }
 
-
-        let sortDirection = [true, true]; // array om de sorteer volgorde bij te houden
+        let sortDirection = [true, true];
 
         // Functie om de tabel te sorteren
         function sortTable(n) {
             const table = document.querySelector("table");
-            const rows = Array.from(table.rows).slice(1); // Haal alle rijen, behalve de kopjes
+            const rows = Array.from(table.rows).slice(1);
 
             const isNumeric = rows.every(row => !isNaN(row.cells[n].innerText.trim()));
             const sortedRows = rows.sort((rowA, rowB) => {
                 const textA = rowA.cells[n].innerText.trim();
                 const textB = rowB.cells[n].innerText.trim();
-
-                // Als de kolom numeriek is, sorteer numeriek
                 if (isNumeric) {
                     return parseFloat(textA) - parseFloat(textB);
                 }
-
-                // Anders, sorteer als tekst
                 return textA.localeCompare(textB);
             });
 
             if (!sortDirection[n]) {
-                sortedRows.reverse(); // Omkeren als het in aflopende volgorde moet
+                sortedRows.reverse();
             }
 
-            // Voeg de gesorteerde rijen terug in de tabel
             sortedRows.forEach(row => table.appendChild(row));
-
-            // Verander de sorteervolgorde voor de volgende keer
             sortDirection[n] = !sortDirection[n];
         }
 
-        // Functie om de tabel te filteren op basis van de zoekopdracht
+        // Functie om de tabel te filteren en het aantal zichtbare rijen bij te werken
         function searchTable() {
             const input = document.getElementById("searchInput");
-            const filter = input.value.toLowerCase();  // Haal de zoekterm op en zet deze om naar kleine letters
+            const filter = input.value.toLowerCase();
             const table = document.querySelector("table");
-            const rows = table.getElementsByTagName("tr");  // Alle rijen in de tabel
+            const rows = table.getElementsByTagName("tr");
+            let visibleCount = 0;
 
-            // Loop door alle rijen van de tabel (behalve de koprij)
             for (let i = 1; i < rows.length; i++) {
                 const cells = rows[i].getElementsByTagName("td");
                 let matchFound = false;
 
-                // Zoek door alle cellen in de rij
                 for (let j = 0; j < cells.length; j++) {
                     const cellText = cells[j].textContent || cells[j].innerText;
                     if (cellText.toLowerCase().indexOf(filter) > -1) {
                         matchFound = true;
-                        break; // Stop met zoeken als er een match is
+                        break;
                     }
                 }
 
-                // Toon of verberg de rij op basis van de zoekterm
                 rows[i].style.display = matchFound ? "" : "none";
+                if (matchFound) {
+                    visibleCount++;
+                }
             }
+
+            // Werk het dynamische getal bij
+            document.getElementById("rowCount").textContent = visibleCount;
         }
 
-        // Standaard sorteren op de eerste kolom (Effectnaam) bij het laden van de pagina
+        // Functie om het aantal zichtbare rijen te berekenen bij pagina-initialisatie
+        function updateRowCount() {
+            const table = document.querySelector("table");
+            const rows = Array.from(table.getElementsByTagName("tr")).slice(1);
+            const visibleCount = rows.filter(row => row.style.display !== "none").length;
+            document.getElementById("rowCount").textContent = visibleCount;
+        }
+
+        // Standaard sorteren en initialiseren van rijen bij het laden van de pagina
         document.addEventListener("DOMContentLoaded", function() {
-            sortTable(0); // Sorteer op de eerste kolom (effectnaam)
+            sortTable(0);
+            updateRowCount();
         });
 
-        // Inline HTML van de navigatiebalk als fallback
         const navHTML = `
             <nav style="background-color: #4CAF50; padding: 10px;">
                 <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
@@ -530,7 +668,6 @@
             </nav>
         `;
 
-        // Functie om nav.html in te laden of fallback HTML te gebruiken
         document.addEventListener("DOMContentLoaded", function () {
             fetch("./nav.html")
                 .then(response => {
