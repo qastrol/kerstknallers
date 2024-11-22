@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+
+    <meta property="og:title" content="Qastrol, Wout en Hugo bij KerstKnallers">
+    <meta property="og:description" content="Een speciale website voor de KerstKnallers livestream van Qastrol, LordWout en Harde Hugo. Voeg alerts, TTS stemmen en sound effects toe aan je donaties!">
+    <meta property="og:url" content="https://qastrol.github.io/site/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="nl_NL">
+</head>
+<body>
+
+    <!-- Navigatiebalk wordt hier geladen -->
+    <div id="navbar">Navigatiebalk wordt geladen...</div>
+
+    <!-- Welkomstbericht en inhoud voor de homepage -->
+    <div class="container">
+        <h1>Welkom!</h1>
+        <p>Dit is een speciale website voor de KerstKnallers livestream van Qastrol, LordWout en Harde Hugo.</p>
+
+        <p><strong>Hoe werkt het?</strong></p>
+
+        <ul>
+            <li>Aan elke donatie tijdens de livestream kan je één alert gebruiken. 
+                <ul>
+                <li>Let op: je kan maar één alert aan je donatie toevoegen</li>
+                <li><a href="alerts.html">Alerts bekijken</a></li>
+                </ul>
+            <li>Ook kan je je eigen Text To Speech stemmen uitkiezen (dit kunnen meerdere stemmen per bericht zijn).
+            <ul>
+                <li> Deze kunnen gecombineerd worden met alerts en sound effects.</li>
+                <li> <a href="tts.html">Text to Speech stemmen bekijken</a></li>
+                </ul>
+            <li>Je kan ook sound effects toevoegen aan je bericht.
+            <ul>
+                <li>Deze kunnen gecombineerd worden met alerts en TTS stemmen.</li>
+                <li> <a href="soundeffects.html">Sound effects bekijken</a></li>
+            </ul>
+        </ul>
+
+        <p><strong>Voorbeeld:</strong></p>
+        <p>Als je de Noob-Power alert wilt gebruiken, samen met de "frank" en "vanrossem" TTS stemmen en het "fart" sound effect, dan kan je dit in je donatiebericht zetten:</p>
+        <p><code> &lt;noobpower&gt; !frank! dit is een test !vanrossem! hallo (fart)</code></p>
+
+    </div>
+
+    <script>
+        // Inline HTML van de navigatiebalk als fallback
+        const navHTML = `
+            <nav style="background-color: #4CAF50; padding: 10px;">
+                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
+                    <li><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
+                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
+                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
+                    <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
+                </ul>
+            </nav>
+        `;
+
+        // Functie om nav.html in te laden of fallback HTML te gebruiken
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("./nav.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Netwerkfout bij het ophalen van nav.html");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("navbar").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Fout bij het laden van de navigatiebalk:', error);
+                    document.getElementById("navbar").innerHTML = navHTML;
+                });
+        });
+    </script>
+
+</body>
+</html>
