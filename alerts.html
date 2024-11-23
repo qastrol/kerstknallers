@@ -11,12 +11,17 @@
     <meta property="og:url" content="https://qastrol.github.io/site/alerts.html">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="nl_NL">
+    <script src="nav.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
 
+
     <!-- Navigatiebalk wordt hier geladen -->
     <div id="navbar">Navigatiebalk wordt geladen...</div>
-
+    <div class="content">
+        <br><br>
     <h1>Speciale Alerts</h1>
     <p>Zoek en filter de lijst van speciale alerts door een zoekterm in te voeren:</p>
 
@@ -581,6 +586,8 @@
                 </tr>      
         </tbody>
     </table>
+    </div>
+    </body>
 
     <script>
         // Functie om effectnaam te kopiëren naar klembord
@@ -663,33 +670,6 @@
             updateRowCount();
         });
 
-        const navHTML = `
-            <nav style="background-color: #4CAF50; padding: 10px;">
-                <ul style="list-style-type: none; margin: 0; padding: 0; display: flex; gap: 15px; justify-content: center;">
-                    <li><a href="kerstknallers.html" style="color: white; text-decoration: none;">Home</a></li>
-                    <li><a href="alerts.html" style="color: white; text-decoration: none;">Alerts</a></li>
-                    <li><a href="tts.html" style="color: white; text-decoration: none;">Text-to-Speech</a></li>
-                    <li><a href="soundeffects.html" style="color: white; text-decoration: none;">Sound Effects</a></li>
-                </ul>
-            </nav>
-        `;
-
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("./nav.html")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Netwerkfout bij het ophalen van nav.html");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById("navbar").innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Fout bij het laden van de navigatiebalk:', error);
-                    document.getElementById("navbar").innerHTML = navHTML;
-                });
-        });
     </script>
 
 </body>

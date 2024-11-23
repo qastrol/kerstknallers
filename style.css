@@ -1,16 +1,46 @@
+:root {
+    /* Light mode kleuren */
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --nav-background-color: #4CAF50;
+    --nav-text-color: #ffffff;
+    --table-background-color: #ffffff;
+    --table-text-color: #000000;
+    --table-border-color: #dddddd;
+    --table-header-background-color: #f2f2f2;
+    --button-background-color: #008CBA;
+    --button-text-color: #ffffff;
+    --button-hover-background-color: #005f73;
+}
+
+/* Dark mode kleuren */
+[data-theme="dark"] {
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --nav-background-color: #333333;
+    --nav-text-color: #ffffff;
+    --table-background-color: #333333;
+    --table-text-color: #dddddd;
+    --table-border-color: #444444;
+    --table-header-background-color: #444444;
+    --button-background-color: #555555;
+    --button-text-color: #ffffff;
+    --button-hover-background-color: #777777;
+}
+
 /* Algemene styling voor body en tekst */
 body {
     font-family: Arial, sans-serif;
-    margin: 0; /* Verwijder de standaard margin */
-    background-color: #f4f4f4;
-    color: #333;
-    max-width: 1800px; /* Max breedte voor de body */
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    max-width: 1800px;
     width: 100%;
-    box-sizing: border-box; /* Zorg ervoor dat padding binnen de breedte wordt gerekend */
+    box-sizing: border-box;
 }
 
 .content {
-    padding: 0 5%; /* Voeg padding toe aan de content */
+    padding: 0 5%;
 }
 
 /* Media query voor grotere schermen (vanaf 1024px en breder) */
@@ -34,64 +64,39 @@ body {
     }
 }
 
-/* Navigatiebalk styling */
-nav {
-    background-color: #4CAF50;
-    padding: 15px 0; /* Alleen verticale padding */
-    width: 100%; /* Zorg ervoor dat de navigatiebalk de volledige breedte van het scherm beslaat */
-    margin: 0; /* Verwijder marges zodat het niet naar het midden wordt geduwd */
-    position: relative; /* Zorg ervoor dat de navigatiebalk op zijn plaats blijft */
-    z-index: 1000; /* Zorg ervoor dat de navigatiebalk boven andere elementen blijft */
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center; /* Zorg dat de links gecentreerd blijven */
-    gap: 20px;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.1em;
-    padding: 10px 15px; /* Zorg voor klikbare ruimte */
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-nav a:hover {
-    background-color: #45a049;
-    border-radius: 5px;
-}
-
 /* Styling voor de tabel */
 table {
-    width: 100%; /* Zorg ervoor dat de tabel de volledige breedte van de container gebruikt */
-    max-width: 1920px; /* Max breedte voor de tabel, kan dezelfde waarde als body hebben */
+    width: 100%;
+    max-width: 1920px;
     margin: 20px auto;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: var(--table-background-color);
+    color: var(--table-text-color);
+    border: 1px solid var(--table-border-color);
 }
 
 /* Tabel cellen (th, td) */
 th, td {
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--table-border-color);
 }
 
 /* Stijl voor de klikbare kopjes */
 th {
     cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--table-header-background-color);
+    color: var(--table-text-color);
     font-size: 1.1em;
     padding: 10px;
     text-align: left;
     transition: background-color 0.3s ease, text-decoration 0.3s ease;
+}
+
+/* Hover-effect voor de tabel */
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Toevoeging voor dark mode hover effect */
 }
 
 th:hover {
@@ -99,31 +104,57 @@ th:hover {
     text-decoration: underline;
 }
 
-tr:hover {
-    background-color: #f1f1f1;
-}
-
-th.sortable {
-    cursor: pointer;
-    user-select: none;
-}
-
-th.sortable:hover {
-    background-color: #f1f1f1;
-    color: #4CAF50;
-}
-
-.copy-btn {
-    background-color: #008CBA;
-    color: white;
+/* Styling voor knoppen */
+button {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
     border: none;
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 1em;
     transition: background-color 0.3s ease;
 }
 
-.copy-btn:hover {
-    background-color: #005f73;
+button:hover {
+    background-color: var(--button-hover-background-color);
+}
+
+/* Styling voor de kopjes en de links in de navigatie */
+nav {
+    background-color: var(--nav-background-color);
+    color: var(--nav-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* Styling voor de kopjes en de links in de navigatie */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav a {
+    color: var(--nav-text-color);
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--button-hover-background-color);
+    color: var(--button-text-color);
+    border-radius: 5px;
 }
