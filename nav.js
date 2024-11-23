@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function executeNavScripts() {
         const modeToggle = document.getElementById("mode-toggle");
         const modeIcon = document.getElementById("mode-icon");
-        const html = document.documentElement; // Selecteer het <html>-element
+        const html = document.documentElement; // Correcte manier om het <html> element te benaderen
 
         // Haal de opgeslagen dark mode voorkeur op uit localStorage
         const isDarkMode = localStorage.getItem("dark-mode") === "true";
