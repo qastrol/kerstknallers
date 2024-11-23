@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li><a href="tts.html">Text-to-Speech</a></li>
                     <li><a href="soundeffects.html">Sound Effects</a></li>
                     <li>
-                        <button id="mode-toggle">
+                        <button id="mode-toggle" title="Zet dark mode aan/uit">
                             <i id="mode-icon" class="fas fa-sun"></i>
                         </button>
                     </li>
