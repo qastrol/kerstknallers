@@ -2,12 +2,15 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0; /* Verwijder de standaard margin */
-    padding: 0 5%; /* Voeg padding toe aan beide zijden (links en rechts) */
     background-color: #f4f4f4;
     color: #333;
     max-width: 1800px; /* Max breedte voor de body */
     width: 100%;
     box-sizing: border-box; /* Zorg ervoor dat padding binnen de breedte wordt gerekend */
+}
+
+.content {
+    padding: 0 5%; /* Voeg padding toe aan de content */
 }
 
 /* Media query voor grotere schermen (vanaf 1024px en breder) */
