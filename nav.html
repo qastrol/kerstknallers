@@ -16,33 +16,33 @@
             </li>
         </ul>
     </nav>
-    
+
+    <!-- Voeg de script toe om de dark mode in te schakelen -->
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const modeToggle = document.getElementById('mode-toggle');
+            const modeIcon = document.getElementById('mode-icon');
+            const body = document.body;
+
+            // Check de opgeslagen mode voorkeur
+            if (localStorage.getItem('dark-mode') === 'true') {
+                body.classList.add('dark-mode');
+                modeIcon.classList.remove('fa-sun');
+                modeIcon.classList.add('fa-moon');
+            }
+
+            modeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                if (body.classList.contains('dark-mode')) {
+                    modeIcon.classList.remove('fa-sun');
+                    modeIcon.classList.add('fa-moon');
+                } else {
+                    modeIcon.classList.remove('fa-moon');
+                    modeIcon.classList.add('fa-sun');
+                }
+                // Sla de voorkeur op
+                localStorage.setItem('dark-mode', body.classList.contains('dark-mode'));
+            });
+        });
+    </script>
 </body>
-
-</script>
-document.addEventListener('DOMContentLoaded', (event) => {
-    const modeToggle = document.getElementById('mode-toggle');
-    const modeIcon = document.getElementById('mode-icon');
-    const body = document.body;
-
-    // Check the saved mode preference
-    if (localStorage.getItem('dark-mode') === 'true') {
-        body.classList.add('dark-mode');
-        modeIcon.classList.remove('fa-sun');
-        modeIcon.classList.add('fa-moon');
-    }
-
-    modeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        if (body.classList.contains('dark-mode')) {
-            modeIcon.classList.remove('fa-sun');
-            modeIcon.classList.add('fa-moon');
-        } else {
-            modeIcon.classList.remove('fa-moon');
-            modeIcon.classList.add('fa-sun');
-        }
-        // Save the mode preference
-        localStorage.setItem('dark-mode', body.classList.contains('dark-mode'));
-    });
-});
-</script>
