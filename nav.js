@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <ul id="nav-menu">
                 <li><a href="kerstknallers.html">Home</a></li>
                 <li><a href="alerts.html">Alerts</a></li>
-                <li><a href="tts.html">Text-to-Speech</a></li>
+                <li><a href="tts.html">Text To Speech</a></li>
                 <li><a href="soundeffects.html">Sound Effects</a></li>
                 <li>
                     <button id="mode-toggle" title="Zet dark mode aan/uit">
