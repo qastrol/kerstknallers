@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
         ☰
     </button>
-    <ul>
+    <ul id="nav-menu">
         <li><a href="kerstknallers.html">Home</a></li>
         <li><a href="alerts.html">Alerts</a></li>
         <li><a href="tts.html">Text-to-Speech</a></li>
@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </ul>
 </nav>
 
+
         `;
     }
 
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const modeIcon = document.getElementById("mode-icon");
         const html = document.documentElement;
     
-        // Dark mode logica
+        // Dark mode logica (zoals eerder beschreven)
         const isDarkMode = localStorage.getItem("dark-mode") === "true";
         if (isDarkMode) {
             html.setAttribute("data-theme", "dark");
@@ -78,12 +79,20 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Hamburger-menu logica
         const hamburger = document.getElementById("hamburger");
-        const navMenu = document.querySelector("nav ul");
+        const navMenu = document.getElementById("nav-menu");
     
         hamburger.addEventListener("click", () => {
-            navMenu.classList.toggle("show");
+            navMenu.classList.toggle("show"); // Voeg de 'show' klasse toe of verwijder deze
+        });
+    
+        // Sluit het menu wanneer ergens anders op de pagina wordt geklikt
+        document.addEventListener("click", (event) => {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove("show");
+            }
         });
     }
+    
     
 
     // Laad de navigatie
