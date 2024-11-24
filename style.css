@@ -57,13 +57,41 @@ body {
     }
 }
 
-/* Media query voor mobiele schermen (max-width 768px) */
+/* Verberg standaard het menu op mobiele schermen */
 @media (max-width: 768px) {
-    body {
-        padding: 0 5%; /* Verminder de padding verder voor mobiele schermen */
+    nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: var(--nav-background-color);
+        position: absolute;
+        top: 50px; /* Zorg ervoor dat het onder de navigatiebalk verschijnt */
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 999;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    nav .hamburger {
+        display: block;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--nav-text-color);
+        background: none;
+        border: none;
+        outline: none;
     }
 }
 
+/* Verberg de hamburger op grotere schermen */
+@media (min-width: 769px) {
+    nav .hamburger {
+        display: none;
+    }
+}
 /* Styling voor de tabel */
 table {
     width: 100%;

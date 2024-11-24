@@ -27,61 +27,64 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fallback navigatie HTML met de dark mode-knop
     function getFallbackNavHTML() {
         return `
-            <nav>
-                <ul>
-                    <li><a href="kerstknallers.html">Home</a></li>
-                    <li><a href="alerts.html">Alerts</a></li>
-                    <li><a href="tts.html">Text-to-Speech</a></li>
-                    <li><a href="soundeffects.html">Sound Effects</a></li>
-                    <li>
-                        <button id="mode-toggle" title="Zet dark mode aan/uit">
-                            <i id="mode-icon" class="fas fa-sun"></i>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
+<nav>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        ☰
+    </button>
+    <ul>
+        <li><a href="kerstknallers.html">Home</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+        <li><a href="tts.html">Text-to-Speech</a></li>
+        <li><a href="soundeffects.html">Sound Effects</a></li>
+        <li>
+            <button id="mode-toggle" title="Zet dark mode aan/uit">
+                <i id="mode-icon" class="fas fa-sun"></i>
+            </button>
+        </li>
+    </ul>
+</nav>
+
         `;
     }
 
-    // Functie voor de dark mode wisselknop
     function executeNavScripts() {
         const modeToggle = document.getElementById("mode-toggle");
         const modeIcon = document.getElementById("mode-icon");
-        const html = document.documentElement; // Correcte manier om het <html> element te benaderen
-
-        // Haal de opgeslagen dark mode voorkeur op uit localStorage
+        const html = document.documentElement;
+    
+        // Dark mode logica
         const isDarkMode = localStorage.getItem("dark-mode") === "true";
         if (isDarkMode) {
             html.setAttribute("data-theme", "dark");
-            modeIcon.classList.remove("fa-sun");
-            modeIcon.classList.add("fa-moon");
+            modeIcon.classList.replace("fa-sun", "fa-moon");
         } else {
             html.setAttribute("data-theme", "light");
-            modeIcon.classList.remove("fa-moon");
-            modeIcon.classList.add("fa-sun");
+            modeIcon.classList.replace("fa-moon", "fa-sun");
         }
-
-        // Voeg een klikgebeurtenis toe aan de knop
+    
         modeToggle.addEventListener("click", () => {
             const currentTheme = html.getAttribute("data-theme");
             const newTheme = currentTheme === "dark" ? "light" : "dark";
-            
-            // Wissel het thema
             html.setAttribute("data-theme", newTheme);
-
-            // Pas het icoon aan
+    
             if (newTheme === "dark") {
-                modeIcon.classList.remove("fa-sun");
-                modeIcon.classList.add("fa-moon");
+                modeIcon.classList.replace("fa-sun", "fa-moon");
             } else {
-                modeIcon.classList.remove("fa-moon");
-                modeIcon.classList.add("fa-sun");
+                modeIcon.classList.replace("fa-moon", "fa-sun");
             }
-
-            // Sla de voorkeur op in localStorage zodat de status behouden blijft
+    
             localStorage.setItem("dark-mode", newTheme === "dark");
         });
+    
+        // Hamburger-menu logica
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.querySelector("nav ul");
+    
+        hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("show");
+        });
     }
+    
 
     // Laad de navigatie
     loadNav();
