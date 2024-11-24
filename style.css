@@ -69,10 +69,14 @@ body {
         right: 0;
         width: 100%;
         z-index: 999;
+        transition: max-height 0.3s ease-in-out;
+        max-height: 0;
+        overflow: hidden;
     }
 
     nav ul.show {
         display: flex;
+        max-height: 300px; /* Pas aan op basis van de menu-inhoud */
     }
 
     nav .hamburger {
