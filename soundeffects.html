@@ -490,6 +490,8 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem('dark-mode', body.classList.contains('dark-mode'));
     });
 });
+const soundEffectCount = document.querySelectorAll('#soundEffectsTable tr').length;
+localStorage.setItem('soundEffectCount', soundEffectCount);
     </script>
 
 </body>

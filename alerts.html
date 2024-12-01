@@ -1188,7 +1188,8 @@ function sortTable(n) {
             sortTable(0);
             updateRowCount();
         });
-
+        const alertCount = document.querySelectorAll('#alertTable tr').length;
+        localStorage.setItem('alertCount', alertCount);
     </script>
 
 </body>

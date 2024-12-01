@@ -30,22 +30,23 @@
         <ul>
             <li>Aan elke donatie tijdens de livestream kan je één alert gebruiken. 
                 <ul>
-                <li>Let op: je kan maar één alert aan je donatie toevoegen</li>
-                <li><a href="alerts.html">Alerts bekijken</a></li>
+                <li>Let op: je kan maar één alert per donatie toevoegen!</li>
+                <li><a href="alerts.html">Bekijk alle <span id="alertCount"></span> alerts</a></li>
                 </ul>
-            <li>Ook kan je je eigen Text To Speech stemmen uitkiezen (dit kunnen meerdere stemmen per bericht zijn).
+            <li>Ook kan je je eigen Text To Speech-stemmen uitkiezen (dit kunnen meerdere stemmen per bericht zijn).
             <ul>
                 <li> Deze kunnen gecombineerd worden met alerts en sound effects.</li>
-                <li> <a href="tts.html">Text to Speech stemmen bekijken</a></li>
+                <li> Sommige TTS-stemmen zijn alleen in het Engels beschikbaar.</li>
+                <li> <a href="tts.html">Bekijk alle <span id="ttsCount"></span> Text to Speech-stemmen</a></li>
                 </ul>
             <li>Je kan ook sound effects toevoegen aan je bericht.
             <ul>
                 <li>Deze kunnen gecombineerd worden met alerts en TTS stemmen.</li>
-                <li> <a href="soundeffects.html">Sound effects bekijken</a></li>
+                <li> <a href="soundeffects.html">Bekijk alle <span id="soundEffectCount"></span> sound effects</a></li>
             </ul>
             <li>Voeg de gewenste alerts, TTS stemmen en sound effects toe aan je donatiebericht.</li>
             <ul>
-                <li>Dit werkt vanaf elk donatiebedrag.</li>
+                <li>Alles werkt vanaf ieder donatiebedrag.</li>
                 <li><a href="https://www.npo3fm.nl/kominactie/acties/kerstknallers" target="_blank">Doneer hier!</a></li>
             </ul>
 
@@ -61,5 +62,16 @@
 
     <!-- Verwijzing naar nav.js, laad het script aan het einde van de body -->
     <script src="nav.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const alertCount = localStorage.getItem('alertCount') || 'onbekend';
+            const soundEffectCount = localStorage.getItem('soundEffectCount') || 'onbekend';
+            const ttsCount = localStorage.getItem('ttsCount') || 'onbekend';
+    
+            document.getElementById('alertCount').textContent = alertCount;
+            document.getElementById('soundEffectCount').textContent = soundEffectCount;
+            document.getElementById('ttsCount').textContent = ttsCount;
+        });
+    </script> 
 </body>
 </html>

@@ -508,7 +508,8 @@
             sortTable(0); // Sorteer op de eerste kolom (stemnaam)
             updateRowCount(); // Update de rijteller
         });
-
+        const ttsCount = document.querySelectorAll('#ttsTable tr').length;
+        localStorage.setItem('ttsCount', ttsCount);
     </script>
 
 </body>
