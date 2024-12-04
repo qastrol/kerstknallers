@@ -427,17 +427,17 @@
     <script>
         // Functie om effectnaam of stemnaam te kopiëren naar klembord
         function copyToClipboard(button) {
-    // Vind de rij waarin de knop zich bevindt
-    const row = button.closest('tr');
-    // Pak de tekst uit de eerste cel (Stemnaam)
-    const stemNaam = row.cells[0].innerText.trim();
-    // Kopieer de tekst naar het klembord
-    navigator.clipboard.writeText(stemNaam).then(() => {
-        alert(`Stemnaam '${stemNaam}' gekopieerd naar het klembord!`);
+    // Zoek de rij van de knop en vervolgens de eerste cel (de soundeffectnaam)
+    const row = button.closest('tr'); // Zoek de rij van de knop
+    const soundEffectName = row.cells[0].innerText.trim(); // Pak de tekst uit de eerste cel
+
+    navigator.clipboard.writeText(soundEffectName).then(() => {
+        alert(`Naam '${soundEffectName}' gekopieerd naar het klembord!`);
     }).catch(err => {
         console.error('Kopiëren mislukt', err);
     });
 }
+
 
 
         let sortDirection = [true, true, true]; // array om de sorteer volgorde bij te houden
