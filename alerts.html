@@ -23,9 +23,13 @@
     <div class="content">
         <br><br><br>
     <h1>Alerts</h1>
-    <p>Hieronder staan alle speciale alerts die je kan toevoegen aan je donatie.<br><br> De meeste alerts zijn video's, maar er zijn ook interactieve alerts. Klik op de knop "Kopieer" om de alertcode te kopiëren naar je klembord.</p>
-
-    <!-- Zoekveld -->
+    <p>Hieronder staan alle speciale alerts die je kan toevoegen aan je donatie.
+        <br><br> 
+        De meeste alerts zijn video's, maar er zijn ook interactieve alerts. Klik op de knop "Kopieer" om de alertcode te kopiëren naar je klembord.
+        <br><br> 
+        Let op: je kan maar één alert per donatie toevoegen. Als je meerdere alerts wilt toevoegen, moet je meerdere donaties doen. </p>
+        <br><br> 
+        <!-- Zoekveld -->
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Zoek op effectnaam of beschrijving..." style="padding: 8px; width: 100%; max-width: 400px; margin: 10px 0;">
 
     <p>Aantal alerts: <span id="rowCount">0</span></p>
@@ -1208,6 +1212,12 @@
     <td>Gerard Joling - Mexico</td>
     <td>Ik ben naar Mexico gekomen! De afspeelduur is afhankelijk van je donatiebedrag (1 euro = 1 seconde)</td>
     <td>&lt;mexico&gt;</td>
+    <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
+</tr>
+<tr>
+    <td>Poker</td>
+    <td>Speel een soort van poker. Je pakt vijf willekeurige kaarten, die vervolgens een score krijgen. <a href = "https://balatrogame.fandom.com/wiki/Poker_Hands">De scoreberekening is hetzelfde als in Balatro: (chips + handwaarde) * mult</a></td>
+    <td>&lt;poker&gt;</td>
     <td><button class="copy-btn" onclick="copyToClipboard(this)">Kopieer</button></td>
 </tr>
         </tbody>
